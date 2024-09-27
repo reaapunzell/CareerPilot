@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="src/style.css">
+    <title>Career Pilot</title>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="left-panel-header">
+                <img class="left-panel-logo" src="images/Career Pilot Logo (1).png" alt="Career Pilot Logo">
+                <h3>Career Pilot</h3>
+            </div>
+            <button> + New chat</button>
+
+            <div class="left-panel-today">
+                <p class="chat-archive-day">Today</p>
+                <p class="chat-archive-headings">Physics In-demand skills</p>
+            </div>
+        </div>
+
+        <div class="chat-container" id="chat-container">
+            <h1>Ask anything career-related you want!</h1>
+
+            <div class="chat-options" id="explore-career-paths">
+                <span>Explore Career Paths</span>
+            </div>
+            <div class="chat-options">
+                <span>In-Demand Skills</span>
+            </div>
+            <div class="chat-options">
+                <span>Post Matric Studies Guidance</span>
+            </div>
+            <div class="chat-options">
+                <span>Ask a general question</span>
+            </div>
+
+            <!-- Conversation Log for AI responses and user interactions -->
+            <div id="conversation-log" class="conversation-log">
+                <!-- Dynamic conversation responses will be inserted here -->
+            </div>
+
+            <div class="chat-input">
+                <input type="text" id="instructions" autofocus class="instructions" placeholder="Type your message here..." autocomplete="off">
+                <input type="submit" value="Send" class="btn" id="submit-button">
+            </div>
+        </div>
+    </div>
+
+    <script src="src/index.js" defer></script>
+</body>
+</html>
