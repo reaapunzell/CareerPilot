@@ -1,73 +1,140 @@
 // Event listener for exploring career paths option
-document.getElementById("explore-career-paths").addEventListener("click", startConversation);
+document.getElementById("explore-career-paths").addEventListener("click", handleOptionSelection);
 
 let conversationStage = 0;
 let responses = {};
 
 // Function to start the conversation
-function startConversation() {
-    document.getElementById("conversation-log").innerHTML = `<p>AI: What subjects are you learning in school?</p>`;
-    conversationStage = 1;
+// Add event listeners for all options
+document.getElementById("explore-career-paths").addEventListener("click", function() {
+    handleOptionSelection("Explore Career Paths");
+});
+
+document.getElementById("in-demand-skills").addEventListener("click", function() {
+    handleOptionSelection("In-Demand Skills");
+});
+
+document.getElementById("study-program-guidance").addEventListener("click", function() {
+    handleOptionSelection("Study Program Guidance");
+});
+
+document.getElementById("ask-general-question").addEventListener("click", function() {
+    handleOptionSelection("Ask a General Question");
+});
+ 
+document.getElementById("exit-button").addEventListener("click", function(){
+    window.location.href = "index.html";
+})
+function handleOptionSelection(option) {
+    selectedOption = option;
+    const chatOptions = document.querySelector(".chat-options-container");
+    chatOptions.style.display = "none"; // Hide options once one is selected
+
+    if (option === "Explore Career Paths") {
+        appendToLog(`What are your favorite school subjects?`);
+        conversationStage = 1;
+    } else if (option === "In-Demand Skills") {
+        appendToLog(`Would you like to see in-demand skills for all fields or a specific career path?`);
+        conversationStage = 4;
+    } else if (option === "Study Program Guidance") {
+        appendToLog(`Would you prefer studying locally or abroad?`);
+        conversationStage = 6;
+    } else if (option === "Ask a General Question") {
+        appendToLog(`Please type your question below:`);
+        conversationStage = 8;
+    }
 }
 
 // Function to handle user responses and advance the conversation
 document.getElementById("submit-button").addEventListener("click", function(event) {
     event.preventDefault();
     const userInput = document.getElementById("instructions").value;
-    
+
     if (conversationStage === 1) {
-        // Store the subjects learned by the user
         responses.subjects = userInput;
-        appendToLog(`You: ${userInput}`);
-        appendToLog(`AI: Which subjects do you enjoy the most?`);
+        appendToLog(`${userInput}`, "user");
+        appendToLog(`What are your interests and hobbies?`);
         conversationStage = 2;
     } else if (conversationStage === 2) {
-        // Store the user's favorite subjects
-        responses.favoriteSubjects = userInput;
-        appendToLog(`You: ${userInput}`);
-        appendToLog(`AI: Do you have any particular skills you're proud of?`);
+        responses.interests = userInput;
+        appendToLog(`${userInput}`, "user");
+        appendToLog(`Do you have any particular skills you're proud of?`);
         conversationStage = 3;
     } else if (conversationStage === 3) {
-        // Store the user's skills and finalize the conversation
         responses.skills = userInput;
-        appendToLog(`You: ${userInput}`);
-        
-        // Now send all the collected responses to the AI
-        callAIAPI(responses);
+        appendToLog(`${userInput}`, "user");
+        callAIAPI(responses, 'career-paths');
+    } else if (conversationStage === 4) {
+        responses.skillFocus = userInput;
+        appendToLog(`${userInput}`, "user");
+        callAIAPI(responses, 'in-demand-skills');
+    } else if (conversationStage === 6) {
+        responses.studyPreference = userInput;
+        appendToLog(`${userInput}`, "user");
+        appendToLog(`Are you interested in a university degree, a technical diploma, or an online course?`);
+        conversationStage = 7;
+    } else if (conversationStage === 7) {
+        responses.studyType = userInput;
+        appendToLog(`${userInput}`, "user");
+        callAIAPI(responses, 'study-guidance');
+    } else if (conversationStage === 8) {
+        responses.generalQuestion = userInput;
+        appendToLog(`${userInput}`, "user");
+        callAIAPI(responses, 'general-question');
     }
 
-    // Clear input field after each submission
+    // Clear input field after submission
     document.getElementById("instructions").value = '';
 });
 
 // Function to append text to the conversation log
-function appendToLog(message) {
+function appendToLog(message, sender = "ai") {
     const log = document.getElementById("conversation-log");
-    log.innerHTML += `<p>${message}</p>`;
+
+    // Create a new message div and apply sender-specific class
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", sender);
+
+    // Add the message content
+    messageDiv.innerHTML = `<p>${message}</p>`;
+    log.appendChild(messageDiv);
+
+    // Scroll to the bottom of the conversation log
+    log.scrollTop = log.scrollHeight;
 }
 
 // Function to call the AI API
-function callAIAPI(data) {
+function callAIAPI(data, type) {
     const apiKey = "7f9d9cf0474030cet59a45f7coc640b0"; 
     const context = "You are a friendly chatbot for high school students...";
-    
-    const prompt = `The student is learning: ${data.subjects}. Their favorite subjects are: ${data.favoriteSubjects}. They are proud of the following skills: ${data.skills}. Generate a list of possible career paths they could explore. Put the careers in <h1> elements and the descriptions in <ul><li>.`;
-    
+    let prompt = "";
+
+    if (type === 'career-paths') {
+        prompt = `The student is learning: ${data.subjects}. They are interested in: ${data.interests}, and they have skills in: ${data.skills}. Suggest some career paths.`;
+    } else if (type === 'in-demand-skills') {
+        prompt = `Provide a list of in-demand skills for: ${data.skillFocus}.`;
+    } else if (type === 'study-guidance') {
+        prompt = `The user prefers studying ${data.studyPreference} and is interested in ${data.studyType}. Suggest some study programs.`;
+    } else if (type === 'general-question') {
+        prompt = `Answer the following question: ${data.generalQuestion}`;
+    }
+
     const apiURL = `https://api.shecodes.io/ai/v1/generate?prompt=${encodeURIComponent(prompt)}&context=${encodeURIComponent(context)}&key=${apiKey}`;
 
     axios.get(apiURL)
         .then(response => {
-            displayCareerSuggestions(response.data.answer);
+            displayAIResponse(response.data.answer);
         })
         .catch(error => {
-            appendToLog(`AI: Sorry, I couldn't generate career paths at the moment. Please try again later.`);
+            appendToLog(`Sorry, I couldn't generate career paths at the moment. Please try again later.`, "ai");
             console.error(error);
         });
 }
 
 // Function to display AI's career suggestions
-function displayCareerSuggestions(careers) {
-    const log = document.getElementById("conversation-log");
-    appendToLog(`AI: Here are some career paths you could explore:`);
-    log.innerHTML += `<div>${careers}</div>`; // Assuming the API returns formatted HTML
+function displayAIResponse(response) {
+    appendToLog(`${response}`, "ai")
+ 
 }
+
+

@@ -43,7 +43,7 @@ body {
     height: 31px;
 }
 
-.left-panel button{
+button{
     width: 100%;
     padding: 10px;
     background-color: var(--primary-color);
@@ -81,6 +81,10 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
+.chat-container button{
+    width: 50px;
+    margin: 0px;
+}
 .chat-container h1 {
     font-size: 1.8em;
     margin-bottom: 20px;
@@ -135,4 +139,40 @@ body {
 .chat-input button:hover {
     background-color: var(--button-hover-color);
     color:white;
+}
+
+.chat-options-containe{
+    margin: 0;
+}
+.conversation-log {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin: 5px 0;
+    font-size: 16px;
+    word-wrap: break-word;
+    display: inline-block;
+}
+
+.message.user {
+    background-color: #DCF8C6;
+    align-self: flex-end; /* Aligns to the right */
+    color: #000;
+    border-top-right-radius: 0; /* Remove one corner for a bubble effect */
+}
+
+.message.ai {
+    background-color: #F1F1F1;
+    align-self: flex-start; /* Aligns to the left */
+    color: #000;
+    border-top-left-radius: 0; /* Remove one corner for a bubble effect */
 }
