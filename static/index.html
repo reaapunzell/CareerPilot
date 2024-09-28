@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="src/style.css">
+    <title>Career Pilot</title>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="left-panel-header">
+                <img class="left-panel-logo" src="images/Career Pilot Logo (1).png" alt="Career Pilot Logo">
+                <h3>Career Pilot</h3>
+            </div>
+            <button> + New chat</button>
+
+            <div class="left-panel-today">
+                <p class="chat-archive-day">Today</p>
+                <p class="chat-archive-headings">Physics In-demand skills</p>
+            </div>
+        </div>
+
+        <div class="user-info-form" id="user-info-form">
+            <h2>I am Career Pilot. Your AI Career Guidance
+                Let's get started by getting to know you.
+            </h2>
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter your name">
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Enter your email">
+            
+            <label for="age">Age:</label>
+            <input type="number" id="age" placeholder="Enter your age">
+            
+            <button id="submit-user-info">Submit</button>
+        </div>
+
+        <div class="chat-container" id="chat-container" style="display:none">
+            <div class="chat-container-header">
+            <h1>Ask anything career-related you want!</h1>
+            <button id="exit-button">Exit</button>
+        </div>
+            <div class="chat-options-container">
+            <div class="chat-options" id="explore-career-paths">
+                <span>Explore Career Paths</span>
+            </div>
+            <div class="chat-options" id="in-demand-skills">
+                <span>In-Demand Skills</span>
+            </div>
+            <div class="chat-options" id="study-program-guidance">
+                <span>Post Matric Studies Guidance</span>
+            </div>
+            <div class="chat-options" id="ask-general-question">
+                <span>Ask a general question</span>
+            </div>
+        </div>
+            <!-- Conversation Log for AI responses and user interactions -->
+            <div id="conversation-log" class="conversation-log">
+                
+            </div>
+
+            <div class="chat-input">
+                <input type="text" id="instructions" autofocus class="instructions" placeholder="Type your message here..." autocomplete="off">
+                <input type="submit" value="Send" class="btn" id="submit-button">
+            </div>
+        </div>
+    </div>
+
+    <script src="src/index.js" defer></script>
+</body>
+</html>
