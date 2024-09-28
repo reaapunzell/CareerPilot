@@ -19,6 +19,6 @@ Career Pilot aims to provide accessible, personalized, and relevant career advic
 ## Technologies Used
 - **Frontend**: HTML, CSS, JavaScript
 - **Backend**: Node.js, Express.js
-- **Database**: MongoDB (or any other database used)
+- **Database**: MongoDB
 - **API**: SheCodes AI API for generating career suggestions
 - **Frameworks/Libraries**: Axios for API requests
