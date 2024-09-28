@@ -43,6 +43,30 @@ body {
     height: 31px;
 }
 
+.user-profile{
+  width: 243px; 
+  background: #FFFFFFFF;
+  border-radius: 12px;
+  border-width: 1px; 
+  border-color: #D9E5DCFF;
+  border-style: solid;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-bottom:0px;
+  margin-top: 350px;
+}
+
+.user-profile span{
+    text-align: center;
+    color: var(--text-color);
+    margin-top: 20px;
+}
+
+.user-profile button{
+    margin-top: 40px;
+}
+
 button{
     width: 100%;
     padding: 10px;
@@ -180,3 +204,4 @@ button{
     color: #000;
     border-top-left-radius: 0; /* Remove one corner for a bubble effect */
 }
+
